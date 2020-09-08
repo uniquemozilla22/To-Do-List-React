@@ -4,7 +4,7 @@ import Todolist from './todolist'
 export default class Form extends Component {
 
     state={
-        activities:["ola","camosta"],
+        activities:["Pick up Samosa","camosta"],
         selected:"",
         input:""
     }
