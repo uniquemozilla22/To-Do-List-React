@@ -1,10 +1,18 @@
 import React, { Component } from 'react'
-import Todolist from './todolist'
 
 export default class Form extends Component {
 
     state={
-        activities:["Pick up Samosa","camosta"],
+        activities:[
+            {
+                title:"Test 1",
+            completed:false
+        },
+            {
+                title:"test 2",
+            completed:true
+        }
+        ],
         selected:"",
         input:""
     }
@@ -35,6 +43,16 @@ export default class Form extends Component {
     }
 
     render() {
+
+        let listing=[]
+    const completeButtonHandler=(index)=>{
+        console.log(index)
+    }
+    this.state.activities.map((value,index)=>{
+      Object.keys(this.state.activities[index]).map((key,value)=>(
+        listing +=<div className="todo" key={index}><li className="todo-item" key={index}>{value}</li><button className="complete-btn" onSubmit={completeButtonHandler(index)}><i className="fas fa-check" aria-hidden="true"></i></button><button className="trash-btn"><i className="fas fa-trash" aria-hidden="true"></i></button></div>
+      ))   
+    })
         return (
             <div>
                 <form action="" onSubmit={this.submitHandler}>
@@ -52,7 +70,11 @@ export default class Form extends Component {
                 </div>
                 </form>
 
-                <Todolist list ={this.state.activities} show={this.state.selected}/>
+                <div className="todo-container">
+                 <ul className="todo-list">
+                     {listing}
+                 </ul>
+            </div>
             </div>
         )
     }
