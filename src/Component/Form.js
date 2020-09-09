@@ -45,29 +45,97 @@ export default class Form extends Component {
             input:event.target.value
         })
     }
+    completeButtonHandler=(index)=>{
 
+        let activity=this.state.activities
+        activity[index].completed=!activity[index].completed
+        this.setState({
+            ...this.state,
+            activities:activity
+        })
+        
+    }
+    deleteHandler=(index)=>{
+        let activity=this.state.activities
+        activity.splice(index,1)
+        this.setState({
+            ...this.state,
+            activities:activity
+        })
+
+    }
     render() {
 
         let listing=[]
-    const completeButtonHandler=(key)=>{
-        console.log(key)
-    }
-    this.state.activities.map((values,index)=>{
-        if(values.completed===true)
-        {
-            Object.keys(this.state.activities[index]).map((key,value)=>{
-                console.log(value)
-                listing[index] =<div className="todo completed" key={index}><li className="todo-item" key={index}>{values.title}</li><button className="complete-btn" onClick={(index)=>completeButtonHandler}><i className="fas fa-check" aria-hidden="true"></i></button><button className="trash-btn"><i className="fas fa-trash" aria-hidden="true"></i></button></div>
-              })
-        }
-        else{
-            Object.keys(this.state.activities[index]).map((key,value)=>{
+    if (this.state.selected==='completed')
+    {
+        this.state.activities.map((values,index)=>{
+        
+            if(values.completed===true)
+            {
+                Object.keys(this.state.activities[index]).map((key,value)=>{
+                    if(value===0)
+                    {
+                        listing[index] =<div className="todo completed" key={index}>
+                            <li className="todo-item" key={index}>{this.state.activities[index][key]}</li>
+                            <div onClick={()=>this.completeButtonHandler(index)}><button className="complete-btn"><i className="fas fa-times fa-lg" aria-hidden="true"></i></button></div>
+                            <div onClick={()=>this.deleteHandler(index)}><button className="trash-btn"><i className="fas fa-trash" aria-hidden="true"></i></button></div></div>
+    
+                    }
+                  })
+            }             
+        })
 
-                listing[index]=<div className="todo" key={index}><li className="todo-item" key={index}>{values.title}</li><button className="complete-btn" onClick={()=>completeButtonHandler}><i className="fas fa-check" aria-hidden="true"></i></button><button className="trash-btn"><i className="fas fa-trash" aria-hidden="true"></i></button></div>
-              })
-        }
-         
-    })
+    }
+    else if(this.state.selected==='uncompleted')
+    {
+        this.state.activities.map((values,index)=>{
+        
+            if(values.completed===false){
+                Object.keys(this.state.activities[index]).map((key,value)=>{
+    
+                    if(value===0)
+                    {
+                        listing[index]=<div className="todo" key={index}><li className="todo-item" key={index}>{values.title}</li>
+                            <div onClick={()=>this.completeButtonHandler(index)}><button className="complete-btn"><i className="fas fa-check " aria-hidden="true"></i></button></div>
+                            <div onClick={()=>this.deleteHandler(index)}><button className="trash-btn"><i className="fas fa-trash" aria-hidden="true"></i></button></div></div>
+                    }
+                  })
+            }
+             
+        }) 
+    }
+    else{
+        this.state.activities.map((values,index)=>{
+        
+            if(values.completed===true)
+            {
+                Object.keys(this.state.activities[index]).map((key,value)=>{
+                    if(value===0)
+                    {
+                        listing[index] =<div className="todo completed" key={index}>
+                            <li className="todo-item" key={index}>{this.state.activities[index][key]}</li>
+                            <div onClick={()=>this.completeButtonHandler(index)}><button className="complete-btn"><i className="fas fa-times fa-lg" aria-hidden="true"></i></button></div>
+                            <div onClick={()=>this.deleteHandler(index)}><button className="trash-btn"><i className="fas fa-trash" aria-hidden="true"></i></button></div></div>
+    
+                    }
+                  })
+            }
+            else{
+                Object.keys(this.state.activities[index]).map((key,value)=>{
+    
+                    if(value===0)
+                    {
+                        listing[index]=<div className="todo" key={index}><li className="todo-item" key={index}>{values.title}</li>
+                            <div onClick={()=>this.completeButtonHandler(index)}><button className="complete-btn"><i className="fas fa-check " aria-hidden="true"></i></button></div>
+                            <div onClick={()=>this.deleteHandler(index)}><button className="trash-btn"><i className="fas fa-trash" aria-hidden="true"></i></button></div></div>
+                    }
+                  })
+            }
+             
+        })
+
+    }
         return (
             <div>
                 <form action="" onSubmit={this.submitHandler}>
