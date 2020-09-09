@@ -19,8 +19,12 @@ export default class Form extends Component {
 
     submitHandler=(event)=>{
         event.preventDefault()
-        const handler=this.state.activities        
-        handler.push(this.state.input)
+        let  handler=this.state.activities        
+        let handleritem={
+            title:this.state.input,
+            completed:false
+        }
+        handler.push(handleritem)
         this.setState({
             ...this.state,
             activities:handler
@@ -45,13 +49,24 @@ export default class Form extends Component {
     render() {
 
         let listing=[]
-    const completeButtonHandler=(index)=>{
-        console.log(index)
+    const completeButtonHandler=(key)=>{
+        console.log(key)
     }
-    this.state.activities.map((value,index)=>{
-      Object.keys(this.state.activities[index]).map((key,value)=>(
-        listing +=<div className="todo" key={index}><li className="todo-item" key={index}>{value}</li><button className="complete-btn" onSubmit={completeButtonHandler(index)}><i className="fas fa-check" aria-hidden="true"></i></button><button className="trash-btn"><i className="fas fa-trash" aria-hidden="true"></i></button></div>
-      ))   
+    this.state.activities.map((values,index)=>{
+        if(values.completed===true)
+        {
+            Object.keys(this.state.activities[index]).map((key,value)=>{
+                console.log(value)
+                listing[index] =<div className="todo completed" key={index}><li className="todo-item" key={index}>{values.title}</li><button className="complete-btn" onClick={(index)=>completeButtonHandler}><i className="fas fa-check" aria-hidden="true"></i></button><button className="trash-btn"><i className="fas fa-trash" aria-hidden="true"></i></button></div>
+              })
+        }
+        else{
+            Object.keys(this.state.activities[index]).map((key,value)=>{
+
+                listing[index]=<div className="todo" key={index}><li className="todo-item" key={index}>{values.title}</li><button className="complete-btn" onClick={()=>completeButtonHandler}><i className="fas fa-check" aria-hidden="true"></i></button><button className="trash-btn"><i className="fas fa-trash" aria-hidden="true"></i></button></div>
+              })
+        }
+         
     })
         return (
             <div>
